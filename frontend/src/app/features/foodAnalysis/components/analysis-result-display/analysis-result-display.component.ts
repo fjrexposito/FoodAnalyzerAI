@@ -14,7 +14,7 @@ export class AnalysisResultDisplayComponent {
 
   constructor() { }
 
-  // Método para obtener la clase CSS según la clasificación de salud
+  // Pequeñas funciones de ayuda para la plantilla, si fueran necesarias
   getHealthRatingClass(rating?: HealthRating): string {
     if (!rating) return 'text-muted';
     switch (rating) {

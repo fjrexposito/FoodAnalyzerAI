@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal, WritableSignal, HostBinding } from '@angular/core';
+import { Component, EventEmitter, Output, signal, WritableSignal, ViewChild, ElementRef, OnDestroy, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -7,83 +7,166 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './image-capture.component.html',
   styleUrls: ['./image-capture.component.scss'],
-  host: { 'class': 'app-image-capture d-block' }
+  host: { 'class': 'app-image-capture d-block' } // Tu configuración de host
 })
-export class ImageCaptureComponent {
-  // Output para emitir el archivo de imagen seleccionado o la cadena base64
+export class ImageCaptureComponent implements OnDestroy {
   @Output() imageSelected = new EventEmitter<File>();
 
-  // Signal para la URL de previsualización de la imagen
   public previewUrl: WritableSignal<string | null | ArrayBuffer> = signal(null);
   public selectedFileName: WritableSignal<string | null> = signal(null);
 
+  // Nuevos signals para el estado de la cámara
+  public isCameraActive: WritableSignal<boolean> = signal(false);
+  public cameraError: WritableSignal<string | null> = signal(null);
+
+  // Referencias a los elementos del DOM que añadiremos/usaremos en tu HTML
+  @ViewChild('videoElement') videoElement?: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvasElement') canvasElement?: ElementRef<HTMLCanvasElement>;
+
+  private stream: MediaStream | null = null;
+
   constructor() { }
 
-  // Manejador para cuando se selecciona un archivo a través del input
   onFileSelected(event: Event): void {
+    this.cancelCameraIfNeeded(); // Si la cámara estaba activa, la cerramos
+    this.cameraError.set(null);
+
     const element = event.currentTarget as HTMLInputElement;
     const fileList: FileList | null = element.files;
 
     if (fileList && fileList[0]) {
       const file = fileList[0];
       this.selectedFileName.set(file.name);
-
-      // Generar URL para previsualización
       const reader = new FileReader();
       reader.onload = () => {
         this.previewUrl.set(reader.result);
       };
       reader.readAsDataURL(file);
-
-      // Emitir el archivo seleccionado
       this.imageSelected.emit(file);
     } else {
-      this.previewUrl.set(null);
-      this.selectedFileName.set(null);
+      this.clearSelectionInternal();
     }
   }
 
-  // Método para activar la cámara (implementación básica conceptual)
-  // La implementación real de la cámara puede ser más compleja y requerir manejo de permisos, etc.
-  async onOpenCamera(): Promise<void> {
+  async startCamera(): Promise<void> {
+    this.clearSelectionInternal();
+    this.cameraError.set(null);
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-        // Aquí necesitarías un elemento <video> en tu plantilla para mostrar el stream
-        // y un <canvas> para capturar el frame.
-        // Es una implementación más avanzada que dejamos pendiente por ahora para simplificar.
-        console.log('Acceso a la cámara permitido. Stream:', stream);
-        alert('Funcionalidad de cámara aún no implementada completamente. Por favor, selecciona un archivo.');
-        // Lógica para mostrar el stream en un elemento <video> y capturar un frame.
-        // Cuando se capture un frame, se convertiría a File y se emitiría.
-        // Por ejemplo: const capturedFile = await this.captureFrameFromStream(stream);
-        // this.previewUrl.set(URL.createObjectURL(capturedFile));
-        // this.selectedFileName.set('captura_camara.jpg');
-        // this.imageSelected.emit(capturedFile);
+        this.stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' }
+        });
+        this.isCameraActive.set(true);
 
-        // No olvides detener el stream cuando ya no se necesite:
-        // stream.getTracks().forEach(track => track.stop());
+        // Usamos un pequeño timeout para asegurar que el DOM se actualice con @if(isCameraActive())
+        // antes de intentar acceder a this.videoElement.nativeElement
+        setTimeout(() => {
+          if (this.videoElement?.nativeElement && this.stream) {
+            this.videoElement.nativeElement.srcObject = this.stream;
+            this.videoElement.nativeElement.onloadedmetadata = () => {
+              this.videoElement?.nativeElement?.play().catch(err => {
+                console.error("Error al reproducir video:", err);
+                this.cameraError.set('No se pudo iniciar la reproducción de la cámara.');
+                this.stopCameraStream();
+                this.isCameraActive.set(false);
+              });
+            };
+          } else {
+            console.warn('Elemento de video no encontrado tras activar la cámara.');
+            this.cameraError.set('No se pudo preparar el visor de la cámara.');
+            this.stopCameraStream(); // Limpiar si el elemento no está
+            this.isCameraActive.set(false);
+          }
+        }, 0);
 
-      } catch (err) {
+      } catch (err: any) {
         console.error("Error al acceder a la cámara: ", err);
-        alert('No se pudo acceder a la cámara. Asegúrate de haber concedido los permisos.');
-        this.previewUrl.set(null);
-        this.selectedFileName.set(null);
+        let message = 'No se pudo acceder a la cámara.';
+        if (err.name === "NotAllowedError") message = 'Permiso para acceder a la cámara denegado.';
+        else if (err.name === "NotFoundError") message = 'No se encontró una cámara compatible.';
+        else if (err.name === "NotReadableError") message = 'La cámara está siendo utilizada por otra aplicación.';
+        this.cameraError.set(message);
+        this.isCameraActive.set(false);
+        this.stopCameraStream();
       }
     } else {
-      alert('La API de cámara no está soportada por este navegador.');
-      this.previewUrl.set(null);
-      this.selectedFileName.set(null);
+      this.cameraError.set('La API de cámara no está soportada por este navegador.');
+      this.isCameraActive.set(false);
     }
   }
 
-  // (Opcional) Método para limpiar la selección
-  clearSelection(): void {
+  captureImage(): void {
+    if (this.videoElement?.nativeElement && this.canvasElement?.nativeElement && this.stream) {
+      const video = this.videoElement.nativeElement;
+      const canvas = this.canvasElement.nativeElement;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+
+      if (context) {
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(blob => {
+          if (blob) {
+            const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+            const fileName = `captura_${timestamp}.jpg`;
+            const capturedFile = new File([blob], fileName, { type: 'image/jpeg' });
+
+            this.selectedFileName.set(fileName);
+            this.previewUrl.set(canvas.toDataURL('image/jpeg'));
+            this.imageSelected.emit(capturedFile);
+          }
+          this.stopCameraStream();
+          this.isCameraActive.set(false);
+        }, 'image/jpeg', 0.9);
+      } else {
+        this.cameraError.set('Error al obtener contexto del canvas para captura.');
+        this.stopCameraStream();
+        this.isCameraActive.set(false);
+      }
+    } else {
+      this.cameraError.set('Elementos de video/canvas no listos para captura.');
+      this.stopCameraStream(); // Asegurarse de detener si algo falla
+      this.isCameraActive.set(false);
+    }
+  }
+
+  stopCameraStream(): void {
+    if (this.stream) {
+      this.stream.getTracks().forEach(track => track.stop());
+      this.stream = null;
+    }
+    if (this.videoElement?.nativeElement) {
+      this.videoElement.nativeElement.srcObject = null;
+    }
+  }
+
+  cancelCamera(): void {
+    this.stopCameraStream();
+    this.isCameraActive.set(false);
+    this.cameraError.set(null); // Limpiar errores al cancelar explícitamente
+  }
+
+  private cancelCameraIfNeeded(): void {
+    if (this.isCameraActive()) {
+      this.cancelCamera();
+    }
+  }
+
+  private clearSelectionInternal(): void {
     this.previewUrl.set(null);
     this.selectedFileName.set(null);
-    this.imageSelected.emit(undefined); // O emitir null, según prefieras manejarlo en el padre
-    // Si tienes un input file, podrías necesitar resetearlo:
-    // const fileInput = document.getElementById('fileInput') as HTMLInputElement;
-    // if (fileInput) fileInput.value = '';
+  }
+
+  clearSelection(): void {
+    this.clearSelectionInternal();
+    this.cancelCameraIfNeeded(); // Si la cámara estaba activa, la cancelamos
+    this.imageSelected.emit(undefined);
+    const fileInput = document.getElementById('imageFile') as HTMLInputElement;
+    if (fileInput) fileInput.value = '';
+  }
+
+  ngOnDestroy(): void {
+    this.stopCameraStream();
   }
 }

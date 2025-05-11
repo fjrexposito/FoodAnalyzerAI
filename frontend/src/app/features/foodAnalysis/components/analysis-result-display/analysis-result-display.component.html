@@ -92,28 +92,47 @@
                           class="badge rounded-pill">{{ getSimplifiedNovaText(ingredient.novaClassification) }}</span>
                     </div>
                   }
+                <div class="row gx-2 gy-2 small">
                 @if (ingredient.estimatedVolume) {
-                  <div class="d-flex mb-1">
-                    <div class="text-muted me-2" style="width: 110px;">Volumen/Peso:</div>
-                    <div class="fw-medium">{{ ingredient.estimatedVolume.value }} {{ ingredient.estimatedVolume.unit }}</div>
+                  <div class="col-sm-6 col-md-3">
+                    <span class="fw-bold">Vol/Peso:</span> {{ ingredient.estimatedVolume.value }}{{ ingredient.estimatedVolume.unit }}
                   </div>
                 }
                 @if (ingredient.calories) {
-                  <div class="d-flex mb-1">
-                    <div class="text-muted me-2" style="width: 110px;">Calorías:</div>
-                    <div class="fw-medium">{{ ingredient.calories.value }} {{ ingredient.calories.unit }}</div>
+                  <div class="col-sm-6 col-md-3">
+                    <span class="fw-bold">Calorías:</span> {{ ingredient.calories.value }}{{ ingredient.calories.unit }}
                   </div>
                 }
                 @if (ingredient.macros) {
-                  <div class="d-flex">
-                    <div class="text-muted me-2" style="width: 110px;">Macros:</div>
-                    <div class="fw-medium">
-                      P: {{ ingredient.macros.protein }}{{ingredient.macros.unit}},
-                      C: {{ ingredient.macros.carbohydrates }}{{ingredient.macros.unit}},
-                      G: {{ ingredient.macros.fat }}{{ingredient.macros.unit}}
+                  <div class="col-12">
+                    <div class="mt-2">
+                      <span class="fw-bold mb-1">Macronutrientes:</span>
+                      <table class="table table-sm table-bordered macros-table mt-1">
+                        <thead class="table-light">
+                          <tr>
+                            <th>Nutriente</th>
+                            <th class="text-center">Cantidad</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><i class="bi bi-circle-fill me-1 text-protein"></i> Proteínas</td>
+                            <td class="text-center fw-medium text-protein">{{ ingredient.macros.protein }}{{ ingredient.macros.unit }}</td>
+                          </tr>
+                          <tr>
+                            <td><i class="bi bi-circle-fill me-1 text-carbs"></i> Carbohidratos</td>
+                            <td class="text-center fw-medium text-carbs">{{ ingredient.macros.carbohydrates }}{{ ingredient.macros.unit }}</td>
+                          </tr>
+                          <tr>
+                            <td><i class="bi bi-circle-fill me-1 text-fat"></i> Grasas</td>
+                            <td class="text-center fw-medium text-fat">{{ ingredient.macros.fat }}{{ ingredient.macros.unit }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 }
+              </div>
                 </div>
               </div>
             }

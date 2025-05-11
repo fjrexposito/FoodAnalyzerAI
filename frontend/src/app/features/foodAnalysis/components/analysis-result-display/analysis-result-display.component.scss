@@ -125,3 +125,50 @@ hr {
   opacity: 0.1;
   margin: 1.5rem 0;
 }
+
+// Estilos para la tabla de macronutrientes
+.macros-table {
+  font-size: 0.85rem;
+  margin-bottom: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+
+  th {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: rgba(vars.$secondary, 0.1);
+  }
+
+  td, th {
+    vertical-align: middle;
+    padding: 0.5rem;
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+
+  .bi-circle-fill {
+    font-size: 0.6rem;
+  }
+
+  .fw-medium {
+    font-weight: 500;
+  }
+}
+
+// Clases de texto para los macronutrientes
+.text-protein {
+  color: #0066cc;
+}
+
+.text-carbs {
+  color: #ff9800;
+}
+
+.text-fat {
+  color: #ff5722;
+}

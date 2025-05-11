@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common';
 import { filter, switchMap, catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
-// Servicios y Modelos del Core (ajusta las rutas relativas si es necesario)
+// Servicios y Modelos del Core
 import { GeminiMultimodalApiService } from '../../../core/services/gemini-multimodal-api.service';
 import { FoodAnalysis } from '../models/food-analysis.interface';
 
-// Componentes hijos (de presentación) que estarán en la carpeta 'components'
+// Componentes hijos que estarán en la carpeta 'components'
 import { ImageCaptureComponent } from '../components/image-capture/image-capture.component';
 import { AnalysisResultDisplayComponent } from '../components/analysis-result-display/analysis-result-display.component';
-// import { LoadingIndicatorComponent } from '../components/loading-indicator/loading-indicator.component';
 
 @Component({
   selector: 'app-food-analysis',
@@ -19,7 +18,6 @@ import { AnalysisResultDisplayComponent } from '../components/analysis-result-di
     CommonModule,
     ImageCaptureComponent,
     AnalysisResultDisplayComponent
-    // LoadingIndicatorComponent
   ],
   templateUrl: './food-analysis.component.html',
   styleUrls: ['./food-analysis.component.scss']
