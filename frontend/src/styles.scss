@@ -1,0 +1,69 @@
+
+@use './app/_variables' as vars;
+@use 'sass:color';
+
+
+$theme-colors: (
+  "primary": vars.$primary,
+  "secondary": vars.$secondary,
+  "dark": vars.$dark,
+  "light": vars.$light
+);
+
+
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+/* Estilos globales personalizados */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  color: vars.$primary;
+}
+
+a {
+  color: vars.$secondary;
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: color.adjust(vars.$secondary, $lightness: -10%);
+  }
+}
+
+.card {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+  &:hover {
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+}
+
+.btn {
+  border-radius: 6px;
+  font-weight: 500;
+  padding: 0.5rem 1.25rem;
+  transition: all 0.3s ease;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+/* Animaciones y transiciones */
+.fade-in {
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

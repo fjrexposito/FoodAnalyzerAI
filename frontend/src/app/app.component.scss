@@ -1,0 +1,29 @@
+@use './_variables' as vars;
+@use 'sass:color';
+
+/* Estilo del contenedor principal */
+.min-vh-100 {
+  min-height: 100vh;
+}
+
+/* Estilos para el main */
+main {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+
+  &.container {
+    animation: fadeIn 0.5s ease;
+  }
+}
+
+/* Transición de página */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

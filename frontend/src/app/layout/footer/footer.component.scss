@@ -1,0 +1,47 @@
+@use '../../../app/_variables' as vars;
+@use 'sass:color';
+
+footer {
+  background-color: vars.$dark;
+  border-top: 4px solid vars.$primary;
+
+  h5 {
+    color: vars.$secondary;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 40px;
+      height: 2px;
+      background-color: vars.$primary;
+    }
+  }
+
+  .list-unstyled {
+    li {
+      margin-bottom: 0.5rem;
+
+      a {
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: vars.$secondary !important;
+          padding-left: 5px;
+        }
+      }
+
+      i {
+        color: vars.$secondary;
+      }
+    }
+  }
+
+  hr {
+    background-color: rgba(255,255,255,0.1);
+  }
+}

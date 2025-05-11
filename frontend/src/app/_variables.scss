@@ -1,0 +1,23 @@
+
+@use "sass:color";
+
+
+// Colores principales extraídos del logo
+$primary: #593289;
+$secondary: #e78d38;
+$accent: #0d6efd;
+$dark: #262626;
+$light: #f8f9fa;
+$muted: #6c757d;
+
+// Variables para componentes específicos
+$header-bg: $primary;
+$footer-bg: $dark;
+$btn-primary-bg: $secondary;
+$card-border: $primary;
+
+// Derivados de la paleta principal (tonalidades)
+$primary-light: color.adjust($primary, $lightness: 40%);
+$primary-dark: color.adjust($primary, $lightness: -10%);
+$secondary-light: color.adjust($secondary, $lightness: 25%);
+$secondary-dark: color.adjust($secondary, $lightness: -10%);

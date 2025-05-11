@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8">
+    <div class="card shadow border-0 rounded-4 overflow-hidden">
+      <div class="card-header bg-primary text-white p-4">
+        <h1 class="h3 mb-0">
+          <i class="bi bi-camera-fill me-2"></i>Análisis
+        </h1>
+        <p class="mb-0 mt-2 text-white-50">Sube una foto de tu comida y nuestro sistema la analizará usando inteligencia artificial</p>
+      </div>
+
+      <div class="card-body p-4">
+        <app-image-capture (imageSelected)="handleImageSelected($event)" class="mb-3"></app-image-capture>
+
+        @if (errorMessage(); as errorMsg) {
+          <div class="alert alert-danger mt-4 rounded-3 shadow-sm">
+            <div class="d-flex align-items-center">
+              <i class="bi bi-exclamation-triangle-fill fs-4 me-3"></i>
+              <div>
+                <h5 class="mb-1">Error al analizar la imagen</h5>
+                <p class="mb-0">{{ errorMsg }}</p>
+              </div>
+            </div>
+          </div>
+        } @else if (isLoading()) {
+          <div class="d-flex flex-column align-items-center justify-content-center my-4 py-5">
+            <div class="spinner-border text-primary mb-3" role="status" style="width: 3rem; height: 3rem;">
+              <span class="visually-hidden">Analizando...</span>
+            </div>
+            <div class="text-center">
+              <h5 class="mb-2">Analizando tu comida</h5>
+              <p class="text-muted mb-0">Nuestro sistema de IA está identificando los ingredientes y valores nutricionales...</p>
+            </div>
+          </div>
+
+        } @else {
+        @if (analysisResult(); as analysis) {
+          @if (analysis) {
+            <app-analysis-result-display [analysisData]="analysis" class="mt-4"></app-analysis-result-display>
+          } @else if (imageToAnalyze()) {
+            <div class="alert alert-info mt-4 rounded-3 shadow-sm">
+              <i class="bi bi-info-circle me-2"></i>
+              No se pudo obtener el análisis para la imagen proporcionada o la API devolvió un resultado vacío/nulo.
+            </div>
+          } @else {
+            <div class="alert alert-secondary mt-4 text-center rounded-3 shadow-sm">
+              <i class="bi bi-camera me-2"></i>
+              <p class="mb-0">Por favor, selecciona o captura una imagen para analizar.</p>
+            </div>
+          }
+        } @else if (!imageToAnalyze()){
+          <div class="alert alert-secondary mt-4 text-center rounded-3 shadow-sm">
+            <i class="bi bi-camera me-2"></i>
+            <p class="mb-0">Por favor, selecciona o captura una imagen para analizar.</p>
+          </div>
+        }
+      }
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="image-capture-container p-4 rounded-4 bg-light border shadow-sm">
+  <div class="header mb-3">
+    <h4 class="h6 mb-0 text-primary"><i class="bi bi-image me-2"></i>Captura de Imagen</h4>
+    <p class="small text-muted mb-0 mt-1">Puedes subir una imagen o tomar una foto con la cámara</p>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-md-6 mb-3">
+      <div class="option-card p-3 rounded-3 bg-white shadow-sm h-100">
+        <label for="imageFile" class="form-label fw-medium text-secondary">
+          <i class="bi bi-file-image me-2"></i>Selecciona una imagen
+        </label>
+        <div class="input-group">
+          <input class="form-control rounded" type="file" id="imageFile"
+                 accept="image/png, image/jpeg, image/webp" (change)="onFileSelected($event)">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <div class="option-card p-3 rounded-3 bg-white shadow-sm h-100">
+        <label class="form-label fw-medium text-secondary">
+          <i class="bi bi-camera me-2"></i>Usar la cámara
+        </label>
+        <div class="d-grid">
+          <button type="button" class="btn btn-secondary" (click)="onOpenCamera()">
+            <i class="bi bi-camera-fill me-2"></i>Activar Cámara
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (previewUrl(); as url) {
+    <div class="preview-container mt-3 p-3 bg-white rounded-3 shadow-sm">
+      <div class="mb-3">
+        <h5 class="mb-1">Previsualización</h5>
+        <p class="mb-0 small text-muted">{{ selectedFileName() }}</p>
+      </div>
+      <div class="text-center mb-3">
+        <img [src]="url" alt="Previsualización de imagen" class="img-fluid rounded-3 shadow-sm" style="max-height: 350px;">
+      </div>
+      <div class="text-center">
+        <button type="button" class="btn btn-danger w-100" (click)="clearSelection()">
+          <i class="bi bi-x-lg me-1"></i>Quitar Imagen
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="image-placeholder p-4 text-center bg-white rounded-3 border border-dashed">
+      <i class="bi bi-image fs-1 text-muted mb-2"></i>
+      <p class="mb-0 text-muted">Ninguna imagen seleccionada.</p>
+      <p class="small text-muted">Formatos compatibles: JPG, PNG, WebP</p>
+    </div>
+  }
+</div>

@@ -1,0 +1,2 @@
+# Ignore environments folder in the frontend/src directory
+frontend/src/environments/

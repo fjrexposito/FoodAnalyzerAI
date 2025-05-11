@@ -1,0 +1,127 @@
+@use 'app/_variables' as vars;
+@use 'sass:color';
+
+.analysis-card {
+  transition: all 0.3s ease;
+  border: none;
+
+  .card-header {
+    background-color: vars.$primary;
+    border-bottom: 3px solid vars.$secondary;
+  }
+
+  .card-body {
+    .lead {
+      line-height: 1.6;
+      font-weight: 400;
+      color: vars.$dark;
+    }
+  }
+}
+
+// Estilos para las tarjetas de estadísticas
+.stat-card {
+  transition: all 0.2s ease;
+  border: 1px solid rgba(0,0,0,0.05);
+
+  &:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+  }
+
+  .stat-icon {
+    i {
+      opacity: 0.9;
+    }
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+  }
+
+  .stat-value {
+    margin-top: 0.25rem;
+  }
+}
+
+// Estilos para los badges de valoraciones
+.health-rating {
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 3px;
+
+  &.good {
+    color: #28a745;
+  }
+
+  &.acceptable {
+    color: #ffc107;
+  }
+
+  &.poor {
+    color: #dc3545;
+  }
+}
+
+// Estilos para la clasificación NOVA
+.nova-classification {
+  padding: 4px 8px;
+  font-size: 0.85rem;
+
+  &.unprocessed {
+    background-color: #c8e6c9;
+    color: #2e7d32;
+  }
+
+  &.processed {
+    background-color: #fff9c4;
+    color: #f9a825;
+  }
+
+  &.ultra-processed {
+    background-color: #ffcdd2;
+    color: #c62828;
+  }
+}
+
+// Sección de ingredientes
+.ingredients-section {
+  margin-top: 1rem;
+
+  .section-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+// Animaciones y estilo para las tarjetas de ingredientes
+.ingredient-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 3px solid vars.$secondary !important;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  }
+
+  &.hover-effect:hover {
+    background-color: #f8f9fa !important;
+  }
+
+  .ingredient-info {
+    font-size: 0.9rem;
+    padding-top: 0.5rem;
+
+    .fw-medium {
+      font-weight: 500;
+    }
+  }
+}
+
+// Estilo para separadores
+hr {
+  opacity: 0.1;
+  margin: 1.5rem 0;
+}

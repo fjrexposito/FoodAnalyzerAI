@@ -1,0 +1,118 @@
+@use '../../../../_variables' as vars;
+@use 'sass:color';
+
+:host {
+  display: block;
+}
+
+.image-capture-container {
+  background-color: rgba(vars.$light, 0.7);
+  transition: all 0.3s ease;
+
+  .header {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 1rem;
+  }
+
+  .option-card {
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important;
+    }
+  }
+
+  .form-label {
+    font-weight: 500;
+    color: vars.$dark;
+  }
+
+  .form-control {
+    border: 1px solid #dee2e6;
+
+    &:focus {
+      border-color: vars.$secondary;
+      box-shadow: 0 0 0 0.2rem rgba(vars.$secondary, 0.25);
+    }
+
+    &:hover {
+      border-color: vars.$secondary;
+    }
+  }
+
+  .btn-secondary {
+    background-color: vars.$secondary;
+    border-color: vars.$secondary;
+    transition: all 0.3s ease;
+    font-weight: 500;
+
+    i {
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background-color: color.adjust(vars.$secondary, $lightness: -10%);
+      i {
+        transform: rotate(-15deg);
+      }
+    }
+  }
+
+  .preview-container {
+    transition: all 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 8px 15px rgba(0,0,0,0.08) !important;
+    }
+
+    img {
+      transition: transform 0.3s ease;
+      border: 1px solid #dee2e6;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+
+      &:hover {
+        transform: scale(1.03);
+      }
+    }
+
+    h5 {
+      color: vars.$primary;
+      font-weight: 600;
+    }
+
+    .btn-outline-danger {
+      transition: all 0.2s ease-in-out;
+      border-radius: 20px;
+      padding-left: 15px;
+      padding-right: 15px;
+
+      &:hover {
+        background-color: #dc3545;
+        color: white;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  .image-placeholder {
+    border-style: dashed;
+    border-width: 2px;
+    border-color: #dee2e6;
+    transition: all 0.3s ease;
+
+    i {
+      display: block;
+      color: #adb5bd;
+    }
+
+    &:hover {
+      border-color: vars.$secondary;
+      background-color: rgba(vars.$light, 0.8);
+    }
+  }
+
+  .border-dashed {
+    border-style: dashed;
+  }
+}

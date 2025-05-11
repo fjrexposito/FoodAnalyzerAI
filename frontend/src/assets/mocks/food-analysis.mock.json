@@ -1,0 +1,23 @@
+{
+  "healthRating": "Aceptable",
+  "overallEstimatedVolume": { "value": 350, "unit": "gr" },
+  "overallConfidenceScore": 0.88,
+  "ingredients": [
+    {
+      "name": "Pechuga de pollo a la plancha",
+      "estimatedVolume": { "value": 150, "unit": "gr" },
+      "calories": { "value": 240, "unit": "kcal" },
+      "macros": { "protein": 45, "carbohydrates": 0, "fat": 6, "unit": "gr" },
+      "novaClassification": "Alimentos sin procesar o mínimamente procesados"
+    },
+    {
+      "name": "Ensalada mixta (lechuga, tomate, pepino)",
+      "estimatedVolume": { "value": 200, "unit": "gr" },
+      "calories": { "value": 60, "unit": "kcal" },
+      "macros": { "protein": 2, "carbohydrates": 10, "fat": 1, "unit": "gr" },
+      "novaClassification": "Alimentos sin procesar o mínimamente procesados"
+    }
+  ],
+  "summary": "Un plato saludable y equilibrado, ideal para una comida completa. Buena fuente de proteínas y vitaminas.",
+  "overallNovaClassification": "Alimentos procesados"
+}

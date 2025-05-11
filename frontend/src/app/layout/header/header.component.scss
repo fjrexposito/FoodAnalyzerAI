@@ -1,0 +1,47 @@
+@use '../../../app/_variables' as vars;
+@use 'sass:color';
+
+.navbar {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+  .navbar-brand {
+    font-weight: bold;
+
+    img {
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  .nav-link {
+    position: relative;
+    font-weight: 500;
+
+    &.active {
+      color: vars.$secondary !important;
+    }
+
+    &:hover:not(.active) {
+      color: rgba(255,255,255,0.9) !important;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background-color: vars.$secondary;
+      transition: width 0.3s ease, left 0.3s ease;
+    }
+
+    &:hover::after, &.active::after {
+      width: 100%;
+      left: 0;
+    }
+  }
+}

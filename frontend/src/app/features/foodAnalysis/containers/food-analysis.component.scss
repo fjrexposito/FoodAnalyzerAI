@@ -1,0 +1,110 @@
+@use 'app/_variables' as vars;
+@use 'sass:color';
+
+// Animaciones para los elementos principales
+.card {
+  animation: fadeInUp 0.8s ease-out forwards;
+  transition: all 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 15px 25px rgba(0,0,0,0.1) !important;
+  }
+
+  .card-header {
+    border-bottom: 3px solid vars.$secondary;
+  }
+}
+
+// Efecto de entrada animado
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.row {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardGlow {
+  0% {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  50% {
+    box-shadow: 0 5px 25px rgba(vars.$primary, 0.5);
+  }
+  100% {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+}
+
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid vars.$primary;
+  animation: cardGlow 2s ease-in-out 1s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, vars.$primary, color.adjust(vars.$primary, $lightness: -10%));
+
+    h1 {
+      i {
+        color: vars.$secondary;
+      }
+    }
+  }
+}
+
+.btn-primary {
+  background-color: vars.$secondary;
+  border-color: vars.$secondary;
+
+  &:hover, &:focus {
+    background-color: color.adjust(vars.$secondary, $lightness: -8%);
+    border-color: color.adjust(vars.$secondary, $lightness: -8%);
+  }
+}
+
+.btn-outline-primary {
+  color: vars.$primary;
+  border-color: vars.$primary;
+
+  &:hover, &:focus {
+    background-color: vars.$primary;
+    border-color: vars.$primary;
+  }
+}
+
+// Estilos para la previsualización de la imagen
+.preview-container {
+  img {
+    border: 2px solid vars.$primary !important;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+}
+
+// Animación para el spinner de carga
+.spinner-border {
+  border-right-color: vars.$secondary;
+}
