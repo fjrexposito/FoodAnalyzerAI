@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; // HttpClient se usa para el mock JSON
-import { Observable, of, from } from 'rxjs';       // 'of' y 'from'
-import { switchMap, map, catchError, tap, delay } from 'rxjs/operators'; // 'delay' para el mock
-import { FoodAnalysis } from '../../features/foodAnalysis/models/food-analysis.interface'; // Importamos la interfaz FoodAnalysis
-// Comentamos environment por ahora, ya que la API key no se usará con el mock
-// import { environment } from '../../../environments/environment';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of, from } from 'rxjs';
+import { switchMap, map, catchError, tap, delay } from 'rxjs/operators';
+import { FoodAnalysis } from '../../features/foodAnalysis/models/food-analysis.interface';
+import { BackendApiService } from './backend-api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -37,18 +36,33 @@ export class GeminiMultimodalApiService {
   */
 
   analyzeImage(imageData: File | string): Observable<FoodAnalysis | null> {
-    console.log('GeminiMultimodalApiService: analyzeImage llamado con (mock desde JSON):', imageData);
+    console.log('GeminiMultimodalApiService: analyzeImage llamado (delegando al BackendApiService):', imageData);
 
-    // --- CARGAR MOCK DATA DESDE JSON (Restaurado) ---
-    // Usamos HttpClient para obtener el archivo JSON local desde la carpeta 'assets'.
-    return this.http.get<FoodAnalysis>('../../../assets/mocks/food-analysis.mock.json').pipe(
+    // Para mantener la compatibilidad, verificamos que sea un archivo
+    if (!(imageData instanceof File)) {
+      console.error('Tipo de imagen no soportado o no es un archivo. Se espera un objeto File.');
+      return of(null);
+    }
+
+    // Crear una instancia del servicio BackendApi e inyectar el HttpClient
+    const backendService = new BackendApiService(this.http);
+
+    // Delegamos al servicio de backend
+    return backendService.analyzeImage(imageData as File).pipe(
       tap(response => {
-        console.log('Datos mock cargados desde JSON:', response);
+        console.log('Respuesta del backend:', response);
       }),
-      delay(1500), // Simula 1.5 segundos de carga, como antes
       catchError(error => {
-        console.error('Error al cargar el archivo JSON mock:', error);
-        return of(null); // Devuelve null si el archivo mock no se puede cargar
+        console.error('Error al analizar la imagen con el backend:', error);
+
+        // En caso de error, fallback a los datos mock
+        console.log('Fallback a datos mock...');
+        return this.http.get<FoodAnalysis>('../../../assets/mocks/food-analysis.mock.json').pipe(
+          tap(mockData => {
+            console.log('Datos mock cargados como fallback:', mockData);
+          }),
+          delay(1000)
+        );
       })
     );
 
