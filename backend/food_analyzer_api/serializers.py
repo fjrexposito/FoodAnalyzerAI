@@ -24,6 +24,17 @@ class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient
         fields = ['name', 'estimated_volume', 'calories', 'macros', 'nova_classification']
+    
+    def to_representation(self, instance):
+        """Convert the object to a format that matches the frontend TypeScript interface."""
+        representation = super().to_representation(instance)
+        
+        if 'estimated_volume' in representation:
+            representation['estimatedVolume'] = representation.pop('estimated_volume')
+        if 'nova_classification' in representation:
+            representation['novaClassification'] = representation.pop('nova_classification')
+            
+        return representation
 
 class FoodAnalysisSerializer(serializers.ModelSerializer):
     overall_estimated_volume = EstimatedVolumeSerializer(read_only=True)
@@ -44,7 +55,7 @@ class FoodAnalysisSerializer(serializers.ModelSerializer):
         """
         representation = super().to_representation(instance)
         
-        # Rename keys to match frontend format
+      
         if 'health_rating' in representation:
             representation['healthRating'] = representation.pop('health_rating')
         if 'overall_confidence_score' in representation:
@@ -54,7 +65,7 @@ class FoodAnalysisSerializer(serializers.ModelSerializer):
         if 'overall_nova_classification' in representation:
             representation['overallNovaClassification'] = representation.pop('overall_nova_classification')
         
-        # Remove fields not needed in frontend
+       
         representation.pop('created_at', None)
         representation.pop('id', None)
         
