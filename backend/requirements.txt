@@ -1,0 +1,11 @@
+# Requisitos básicos
+Django>=4.2,<5.0
+djangorestframework==3.15.1
+django-cors-headers==4.7.0
+Pillow>=9.0.0  # Para el manejo de imágenes
+python-dotenv>=1.0.0  # Para manejar variables de entorno
+
+# Integración de Google VertexAI y Gemini
+# Importante: Las versiones deben coincidir para que funcionen correctamente
+google-cloud-aiplatform==1.71.1
+vertexai==1.71.1
