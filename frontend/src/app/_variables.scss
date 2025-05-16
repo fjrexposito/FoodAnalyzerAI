@@ -2,22 +2,25 @@
 @use "sass:color";
 
 
-// Colores principales extraídos del logo
-$primary: #593289;
-$secondary: #e78d38;
-$accent: #0d6efd;
+// Colores principales basados en la nueva paleta
+$primary: #87b8a2;    // Verde oscuro
+$secondary: #dee9d5ff;  // Verde claro
+$accent: #d6dbd5ff;     // Gris verdoso
 $dark: #262626;
 $light: #f8f9fa;
 $muted: #6c757d;
 
+
 // Variables para componentes específicos
-$header-bg: $primary;
+$header_bg: #364732ff;
 $footer-bg: $dark;
-$btn-primary-bg: $secondary;
-$card-border: $primary;
+$btn-primary-bg: $primary;
+$card-border: $accent;
+$slide-bg: $primary;
+$content-bg: $secondary;
 
 // Derivados de la paleta principal (tonalidades)
-$primary-light: color.adjust($primary, $lightness: 40%);
+$primary-light: color.adjust($primary, $lightness: 30%);
 $primary-dark: color.adjust($primary, $lightness: -10%);
-$secondary-light: color.adjust($secondary, $lightness: 25%);
-$secondary-dark: color.adjust($secondary, $lightness: -10%);
+$secondary-light: color.adjust($secondary, $lightness: 10%);
+$secondary-dark: color.adjust($secondary, $lightness: -15%);

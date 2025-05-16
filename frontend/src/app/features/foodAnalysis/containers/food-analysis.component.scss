@@ -74,6 +74,14 @@
       }
     }
   }
+
+  .custom-header {
+    background: linear-gradient(135deg, vars.$primary, color.adjust(vars.$primary, $lightness: -10%)) !important;
+  }
+
+  .custom-spinner {
+    color: vars.$primary !important;
+  }
 }
 
 .btn-primary {

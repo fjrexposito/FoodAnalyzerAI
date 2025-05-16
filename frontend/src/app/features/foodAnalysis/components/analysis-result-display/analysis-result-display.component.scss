@@ -1,6 +1,16 @@
 @use 'app/_variables' as vars;
 @use 'sass:color';
 
+// Clases para estilos de cabecera
+.custom-header {
+  background-color: vars.$header_bg !important;
+  border-bottom: 3px solid vars.$secondary;
+}
+
+.custom-icon-color {
+  color: vars.$header_bg !important;
+}
+
 .analysis-card {
   transition: all 0.3s ease;
   border: none;

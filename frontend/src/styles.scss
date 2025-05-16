@@ -2,15 +2,19 @@
 @use './app/_variables' as vars;
 @use 'sass:color';
 
-
+// Variables para temas de Bootstrap
 $theme-colors: (
-  "primary": vars.$primary,
+  "primary": vars.$header_bg,
   "secondary": vars.$secondary,
+  "success": vars.$primary,
+  "info": vars.$primary,
+  "warning": vars.$secondary,
+  "danger": #dc3545,
   "dark": vars.$dark,
   "light": vars.$light
 );
 
-
+// Asegurarse de que estas variables se apliquen antes de importar Bootstrap
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
 /* Estilos globales personalizados */

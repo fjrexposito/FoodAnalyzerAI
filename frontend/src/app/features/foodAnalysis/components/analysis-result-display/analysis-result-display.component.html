@@ -1,6 +1,6 @@
 @if (analysisData(); as data) {
   <div class="card shadow analysis-card border-0 rounded-4 overflow-hidden">
-    <div class="card-header bg-primary text-white p-4">
+    <div class="card-header custom-header text-white p-4">
       <h2 class="h3 mb-0">Análisis Nutricional Detallado</h2>
     </div>
     <div class="card-body p-4">
@@ -15,7 +15,7 @@
           <div class="col-md-6 mb-3">
             <div class="stat-card p-3 rounded-3 h-100 bg-light">
               <div class="stat-icon mb-2">
-                <i class="bi bi-heart-pulse text-primary fs-4"></i>
+                <i class="bi bi-heart-pulse custom-icon-color fs-4"></i>
               </div>
               <div class="stat-label text-muted">Valoración General</div>
               <div class="stat-value fw-bold fs-5" [class]="getHealthRatingClass(data.healthRating)">
@@ -28,7 +28,7 @@
           <div class="col-md-6 mb-3">
             <div class="stat-card p-3 rounded-3 h-100 bg-light">
               <div class="stat-icon mb-2">
-                <i class="bi bi-graph-up text-primary fs-4"></i>
+                <i class="bi bi-graph-up custom-icon-color fs-4"></i>
               </div>
               <div class="stat-label text-muted">Confianza del Análisis</div>
               <div class="stat-value fw-bold fs-5">{{ (data.overallConfidenceScore * 100).toFixed(0) }}%</div>
@@ -42,7 +42,7 @@
           <div class="col-md-6 mb-3">
             <div class="stat-card p-3 rounded-3 h-100 bg-light">
               <div class="stat-icon mb-2">
-                <i class="bi bi-speedometer2 text-primary fs-4"></i>
+                <i class="bi bi-speedometer2 custom-icon-color fs-4"></i>
               </div>
               <div class="stat-label text-muted">Volumen/Peso Total</div>
               <div class="stat-value fw-bold fs-5">{{ data.overallEstimatedVolume.value }} {{ data.overallEstimatedVolume.unit }}</div>
@@ -54,7 +54,7 @@
             <div class="stat-card p-3 rounded-3 bg-light">
               <div class="d-flex align-items-center">
                 <div class="stat-icon me-3">
-                  <i class="bi bi-tags text-primary fs-4"></i>
+                  <i class="bi bi-tags custom-icon-color fs-4"></i>
                 </div>
                 <div>
                   <div class="stat-label text-muted">Clasificación NOVA</div>
@@ -73,7 +73,7 @@
         <div class="ingredients-section">
           <div class="section-header d-flex align-items-center mb-3">
             <i class="bi bi-egg-fried me-2 text-secondary fs-4"></i>
-            <h3 class="h5 mb-0 text-primary">Ingredientes Detectados</h3>
+            <h3 class="h5 mb-0 custom-text-color">Ingredientes Detectados</h3>
           </div>
           <div class="ingredients-list">
             @for (ingredient of data.ingredients; track ingredient.name) {

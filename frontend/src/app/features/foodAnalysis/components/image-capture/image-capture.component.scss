@@ -5,6 +5,10 @@
   display: block;
 }
 
+.custom-text-color {
+  color: vars.$header_bg !important;
+}
+
 .image-capture-container {
   background-color: rgba(vars.$light, 0.7);
   transition: all 0.3s ease;

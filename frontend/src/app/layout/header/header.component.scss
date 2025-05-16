@@ -1,6 +1,10 @@
 @use '../../../app/_variables' as vars;
 @use 'sass:color';
 
+.custom-navbar {
+  background-color: vars.$header_bg !important;
+}
+
 .navbar {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
